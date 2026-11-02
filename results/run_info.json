@@ -1,8 +1,22 @@
 {
   "dataset": "data/creditcard.csv",
+  "rows_after_duplicate_removal": 283726,
+  "fraud_count": 473,
+  "fraud_rate": 0.001667101358352777,
   "test_size": 0.2,
   "random_state": 42,
   "threshold": 0.5,
   "resampling_scope": "training split only",
-  "status": "awaiting rerun with local dataset"
+  "random_forest_training_subset": 60000,
+  "random_forest_estimators": 35,
+  "xgboost_estimators": 100,
+  "models": [
+    "Logistic Regression (baseline)",
+    "Logistic Regression (SMOTE)",
+    "Logistic Regression (class weights)",
+    "Logistic Regression (undersampling)",
+    "Random Forest",
+    "XGBoost"
+  ],
+  "status": "completed locally"
 }
