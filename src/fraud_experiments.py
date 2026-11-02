@@ -125,7 +125,7 @@ def main() -> None:
     undersampler = RandomUnderSampler(random_state=RANDOM_STATE)
     x_under, y_under = undersampler.fit_resample(x_train_scaled, y_train)
 
-    experiments = [
+    # Keep the full holdout for evaluation while fitting RF on a reproducible\n    # stratified 60k subset of training rows to keep resource use practical.\n    x_rf, _, y_rf, _ = train_test_split(\n        x_train, y_train, train_size=60000, stratify=y_train, random_state=RANDOM_STATE\n    )\n\n    experiments = [
         ("Logistic Regression (baseline)",
          LogisticRegression(max_iter=3000, random_state=RANDOM_STATE),
          x_train_scaled, y_train, x_test_scaled),
@@ -140,13 +140,13 @@ def main() -> None:
          x_under, y_under, x_test_scaled),
         ("Random Forest",
          RandomForestClassifier(
-             n_estimators=300, min_samples_leaf=2, class_weight="balanced_subsample",
+             n_estimators=35, min_samples_leaf=2, class_weight="balanced_subsample",
              n_jobs=-1, random_state=RANDOM_STATE
          ),
          x_train, y_train, x_test),
         ("XGBoost",
          XGBClassifier(
-             n_estimators=450, max_depth=4, learning_rate=0.05,
+             n_estimators=100, max_depth=4, learning_rate=0.05,
              subsample=0.85, colsample_bytree=0.85, reg_lambda=2.0,
              scale_pos_weight=int((y_train == 0).sum()) / max(int((y_train == 1).sum()), 1),
              eval_metric="logloss", random_state=RANDOM_STATE, n_jobs=-1,
@@ -239,7 +239,7 @@ def main() -> None:
         "test_size": TEST_SIZE,
         "random_state": RANDOM_STATE,
         "threshold": THRESHOLD,
-        "resampling_scope": "training split only",
+        "resampling_scope": "training split only",\n        "random_forest_training_subset": 60000,\n        "random_forest_estimators": 35,\n        "xgboost_estimators": 100,
         "models": [name for name, *_ in experiments],
     }
     (RESULTS_DIR / "run_info.json").write_text(json.dumps(info, indent=2), encoding="utf-8")
