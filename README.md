@@ -11,7 +11,7 @@ Use the ULB Credit Card Fraud Detection dataset from Kaggle. Download `creditcar
 - SMOTE and undersampling are applied to training data only. The test data remains unmodified.
 - Evaluation metrics: precision, recall, F1, ROC-AUC and PR-AUC.
 - Baseline probability cutoff: 0.50. No cross-validation or threshold tuning is claimed.
-- PR-AUC is highlighted because fraud is a rare class.
+- PR-AUC is highlighted because fraud is a rare class.\n- Random Forest uses a stratified 60,000-row subset of training data (full holdout used for evaluation); it uses 35 trees and XGBoost uses 100 estimators for resource-aware execution.
 
 ## Run
 ```bash
@@ -19,7 +19,7 @@ python -m venv .venv
 pip install -r requirements.txt
 python src/fraud_experiments.py
 ```
-Download dataset before executing. Outputs are generated in `results/`, including metrics CSV, report, run metadata and plots.
+Download dataset before executing. Outputs are generated in `results/`, including metrics CSV, report, run metadata and plots. Current run metrics are included in `results/results.md` and `results/actual_metrics.csv`.
 
 ## Generated outputs
 `results/actual_metrics.csv`, `results/results.csv`, `results/results.md`, `results/run_info.json` and plots under `results/figures/` (class distribution, amount-by-class, PR curve, ROC curve, metric comparison and confusion matrix).
