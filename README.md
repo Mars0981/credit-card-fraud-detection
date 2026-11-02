@@ -1,102 +1,196 @@
-# Credit Card Fraud Detection
+# 💳 Credit Card Fraud Detection
 
-A machine-learning project for detecting fraudulent credit-card transactions in a highly imbalanced dataset. The project compares baseline classification with imbalance-aware approaches and tree-based models.
+A Machine Learning project focused on detecting fraudulent credit card transactions using multiple classification algorithms and imbalanced-data handling techniques.
 
-## Project objectives
+The project evaluates different machine learning models and compares their performance using precision, recall, F1-score, ROC-AUC, and PR-AUC.
 
-- Explore and understand the class imbalance in transaction data.
-- Establish a logistic-regression baseline.
-- Evaluate class weighting, SMOTE, and random undersampling.
-- Compare Random Forest and XGBoost models.
-- Evaluate models with precision, recall, F1, ROC-AUC, and PR-AUC. PR-AUC and recall are especially useful when fraud is rare.
+## 📌 Project Overview
 
-## Repository structure
+Credit card fraud detection is a highly imbalanced classification problem. Fraudulent transactions represent only a small fraction of all transactions, making conventional accuracy an unreliable evaluation metric.
 
-```text
-credit-card-fraud-detection/
-├── data/                  # Place the dataset here (not committed)
-├── results/
-│   ├── figures/           # Generated evaluation plots
-│   ├── results.csv        # Experiment metrics
-│   ├── results.md         # Results summary
-│   └── run_info.json      # Run metadata
-├── src/
-│   └── fraud_experiments.py
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
+This project explores different approaches to improve fraud detection while minimizing false positives.
 
-## Dataset
+### Objectives
 
-This project uses the well-known Credit Card Fraud Detection dataset (European cardholders, September 2013), commonly distributed through Kaggle. Download the dataset from the [Kaggle dataset page](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and place the CSV at:
+* Analyze and understand the imbalance in transaction data.
+* Build a Logistic Regression baseline model.
+* Experiment with SMOTE, class weighting, and random undersampling.
+* Compare Random Forest and XGBoost classifiers.
+* Evaluate models using appropriate metrics for imbalanced classification.
+* Identify the best-performing model.
 
-```text
-data/creditcard.csv
-```
+## 🛠️ Tech Stack
 
-The raw CSV is intentionally excluded from this repository because it is large. The `.gitignore` keeps local data files out of commits.
+| Category             | Technologies                           |
+| -------------------- | -------------------------------------- |
+| Programming Language | Python                                 |
+| Data Processing      | Pandas, NumPy                          |
+| Machine Learning     | Scikit-learn                           |
+| Imbalanced Learning  | Imbalanced-learn, SMOTE                |
+| Gradient Boosting    | XGBoost                                |
+| Visualization        | Matplotlib                             |
+| Evaluation           | Precision, Recall, F1, ROC-AUC, PR-AUC |
 
-## Setup
+## 📊 Dataset
 
-Python 3.10+ is recommended.
+**Dataset:** Credit Card Fraud Detection — ULB
+
+* Total transactions after duplicate removal: 283,726
+* Fraudulent transactions: 473
+* Legitimate transactions: 283,253
+* Fraud percentage: Approximately 0.167%
+
+The dataset contains anonymized transaction features and is highly imbalanced.
+
+Dataset source: [Kaggle — Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
+
+The dataset is not included in this repository due to its size.
+
+## 🧠 Machine Learning Models
+
+The following models and techniques were evaluated:
+
+1. Logistic Regression — Baseline
+2. Logistic Regression + SMOTE
+3. Logistic Regression + Class Weights
+4. Logistic Regression + Random Undersampling
+5. Random Forest
+6. XGBoost
+
+## 📈 Model Performance
+
+| Model               | CV PR-AUC | Test PR-AUC | Test ROC-AUC | Precision | Recall |   F1-Score |
+| ------------------- | --------: | ----------: | -----------: | --------: | -----: | ---------: |
+| XGBoost             |     0.853 |  **0.8263** |       0.9791 |    0.9868 | 0.7895 | **0.8772** |
+| Random Forest       |     0.800 |      0.7816 |       0.9648 |    0.8659 | 0.7474 |     0.8023 |
+| Logistic Regression |     0.753 |      0.6951 |       0.9575 |    0.8353 | 0.7474 |     0.7889 |
+| LR + SMOTE          |     0.752 |      0.6729 |       0.9600 |    0.8571 | 0.7579 |     0.8045 |
+| LR + Class Weights  |     0.754 |      0.6719 |       0.9657 |    0.8571 | 0.7579 |     0.8045 |
+| LR + Undersampling  |     0.602 |      0.6004 |       0.9554 |    0.6577 | 0.7684 |     0.7087 |
+
+### 🏆 Best Model: XGBoost
+
+XGBoost achieved the best overall performance in the recorded experiment.
+
+* **PR-AUC:** 0.8263
+* **ROC-AUC:** 0.9791
+* **Precision:** 98.68%
+* **Recall:** 78.95%
+* **F1-Score:** 87.72%
+
+The results indicate that XGBoost provided the strongest balance between detecting fraudulent transactions and minimizing false positives among the evaluated models.
+
+## 📉 Visualizations
+
+### Test PR-AUC Comparison
+
+![PR-AUC Comparison](results/figures/test_pr_auc.svg)
+
+### Class Imbalance
+
+![Class Imbalance](results/figures/class_imbalance.svg)
+
+### XGBoost Confusion Matrix
+
+![XGBoost Confusion Matrix](results/figures/xgboost_confusion_matrix.svg)
+
+## ⚙️ Installation and Usage
+
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Mars0981/credit-card-fraud-detection.git
 cd credit-card-fraud-detection
+```
+
+### 2. Create a Virtual Environment
+
+```bash
 python -m venv .venv
 ```
 
-Activate the environment:
+### 3. Activate the Environment
+
+Windows:
+
+```powershell
+.venv\Scripts\activate
+```
+
+Linux/macOS:
 
 ```bash
-# Windows PowerShell
-.venv\\Scripts\\Activate.ps1
-
-# macOS / Linux
 source .venv/bin/activate
 ```
 
-Install dependencies:
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Run experiments
+### 5. Download the Dataset
 
-After downloading the dataset to `data/creditcard.csv`, run:
+Download the dataset from Kaggle and place the CSV file at:
+
+```text
+data/creditcard.csv
+```
+
+### 6. Run the Project
 
 ```bash
 python src/fraud_experiments.py
 ```
 
-Outputs are written to the `results/` directory, including metric summaries and figures.
+Generated results and figures are saved in the `results/` directory.
 
-## Evaluation approach
+## 📂 Project Structure
 
-Fraud detection is an imbalanced binary-classification problem. Accuracy alone can be misleading because a model can achieve high accuracy by predicting the majority class. This project therefore emphasizes precision, recall, F1-score, ROC-AUC, and especially precision-recall AUC (PR-AUC).
+```text
+credit-card-fraud-detection/
+│
+├── data/
+│   └── creditcard.csv              # Dataset (not included)
+│
+├── results/
+│   ├── figures/
+│   │   ├── test_pr_auc.svg
+│   │   ├── class_imbalance.svg
+│   │   └── xgboost_confusion_matrix.svg
+│   │
+│   ├── actual_metrics.csv
+│   ├── results.csv
+│   ├── results.md
+│   └── run_info.json
+│
+├── src/
+│   └── fraud_experiments.py
+│
+├── requirements.txt
+├── .gitignore
+└── README.md
+```
 
-## Current experiment snapshot
+## ⚠️ Limitations
 
-The recorded run contains 283,726 transactions after duplicate removal, including 473 fraud cases. On the held-out test set, the recorded XGBoost result is:
+* The dataset contains historical transactions and may not represent current fraud patterns.
+* Anonymized PCA features limit interpretability.
+* Model performance may vary across different datasets.
+* Real-world deployment would require continuous monitoring, temporal validation, and cost-sensitive threshold selection.
 
-| Metric | Score |
-|---|---:|
-| PR-AUC | 0.8263 |
-| ROC-AUC | 0.9791 |
-| Precision | 0.9868 |
-| Recall | 0.7895 |
-| F1-score | 0.8772 |
+## 🚀 Future Improvements
 
-These are results from the included experiment run, not a guarantee of performance on other data. See `results/results.csv` and `results/results.md` for the recorded comparisons.
+* Implement real-time fraud detection using FastAPI.
+* Develop a transaction fraud prediction dashboard.
+* Add explainability using SHAP.
+* Experiment with deep learning models.
+* Implement real-time model monitoring.
 
-## Limitations
+## 👨‍💻 Author
 
-- The dataset is historical and may not represent current fraud patterns.
-- Performance depends on the train/test split, preprocessing, and decision threshold.
-- Real-world deployment would require temporal validation, monitoring for data drift, cost-sensitive threshold selection, and careful protection of sensitive transaction data.
+**GitHub:** [Mars0981](https://github.com/Mars0981)
 
-## License
+---
 
-No license has been added yet. Unless a license is added, standard copyright applies and reuse permissions are not explicitly granted.
+⭐ If you find this project interesting, consider giving the repository a star!
