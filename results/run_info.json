@@ -1,4 +1,7 @@
 {
-  "source": "included experiment snapshot",
-  "dataset_csv_excluded": true
+  "rows_used": 283726,
+  "fraud_rate": 0.001667101358352777,
+  "folds": 5,
+  "seed": 42,
+  "sample": null
 }
