@@ -125,7 +125,13 @@ def main() -> None:
     undersampler = RandomUnderSampler(random_state=RANDOM_STATE)
     x_under, y_under = undersampler.fit_resample(x_train_scaled, y_train)
 
-    # Keep the full holdout for evaluation while fitting RF on a reproducible\n    # stratified 60k subset of training rows to keep resource use practical.\n    x_rf, _, y_rf, _ = train_test_split(\n        x_train, y_train, train_size=60000, stratify=y_train, random_state=RANDOM_STATE\n    )\n\n    experiments = [
+    # Keep the full holdout for evaluation while fitting RF on a reproducible
+    # stratified 60k subset of training rows to keep resource use practical.
+    x_rf, _, y_rf, _ = train_test_split(
+        x_train, y_train, train_size=60000, stratify=y_train, random_state=RANDOM_STATE
+    )
+
+    experiments = [
         ("Logistic Regression (baseline)",
          LogisticRegression(max_iter=3000, random_state=RANDOM_STATE),
          x_train_scaled, y_train, x_test_scaled),
@@ -143,7 +149,7 @@ def main() -> None:
              n_estimators=35, min_samples_leaf=2, class_weight="balanced_subsample",
              n_jobs=-1, random_state=RANDOM_STATE
          ),
-         x_train, y_train, x_test),
+         x_rf, y_rf, x_test),
         ("XGBoost",
          XGBClassifier(
              n_estimators=100, max_depth=4, learning_rate=0.05,
